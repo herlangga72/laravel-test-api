@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Blog;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class BlogController extends Controller
 {
@@ -56,7 +55,7 @@ class BlogController extends Controller
      */
     public function show(int $id)
     {
-        $obj = DB::table('blogs')->where('id', $id)->first();
+        $obj = Blog::find($id);
         return Response()->json($obj);
     }
 
@@ -80,9 +79,7 @@ class BlogController extends Controller
      */
     public function update(Request $request, int $id)
     {
-        $blog = Blog::findOrFail($id);
-        $blog->update($request->all());
-        $blog->save();
+        $blog = Blog::find($id)->update($request->all());
         return response()->json(['message' => 'Blog updated successfully'], 200);
     }
 
@@ -94,8 +91,7 @@ class BlogController extends Controller
      */
     public function destroy(int $id)
     {
-        $blog = Blog::findOrFail($id);
-        $blog->delete();
+        $blog = Blog::destroy($id);
         return response()->json(['message' => 'Blog deleted successfully'], 200);
     }
 }
