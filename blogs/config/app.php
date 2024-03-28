@@ -133,10 +133,10 @@ return [
     | this array to grant expanded functionality to your applications.
     |
     */
-
     'providers' => [
-
-        /*
+            Collective\Html\HtmlServiceProvider::class,
+            
+            /*
          * Laravel Framework Service Providers...
          */
         Illuminate\Auth\AuthServiceProvider::class,
@@ -190,6 +190,9 @@ return [
 
     'aliases' => [
 
+        'Form' => Collective\Html\FormFacade::class,
+        'Html' => Collective\Html\HtmlFacade::class,
+        
         'App' => Illuminate\Support\Facades\App::class,
         'Arr' => Illuminate\Support\Arr::class,
         'Artisan' => Illuminate\Support\Facades\Artisan::class,
