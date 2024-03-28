@@ -1,5 +1,5 @@
 <h6>Create Blog Post</h6>
-<forms action="/api/blog" method="POST">
+<form action="/api/blogs" method="POST">
     @csrf
     {{ Form::label('title', 'Title :') }}
     {{ Form::text('title', '') }}
@@ -26,7 +26,8 @@
     <br/>
     <br/>
     {{ Form::label('cover', 'Cover :') }}
-    {{ Form::file('cover') }}
+    {{ Form::text('cover', '')}}
+    {{-- {{ Form::file('cover') }} --}}
     <br/>
     <br/>
     {{ Form::label('date', 'Date :') }}
@@ -38,4 +39,4 @@
     <br/>
     <br/>
     <button type="submit">Submit</button>
-</forms>
+</form>
