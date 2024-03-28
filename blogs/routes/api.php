@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\BlogController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -17,8 +17,10 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::get('polls/', 'App\Http\Controllers\PollsController@index');
-Route::post('polls/', 'App\Http\Controllers\PollsController@store');
-Route::get('polls/{poll}', 'App\Http\Controllers\PollsController@show');
-Route::put('polls/{poll}', 'App\Http\Controllers\PollsController@update');
-Route::delete('polls/{poll}', 'App\Http\Controllers\PollsController@destroy');
+
+// Add blog to the route
+Route::get('/blogs', [BlogController::class, 'index']);
+Route::get('/blogs/{id}', [BlogController::class, 'show']);
+Route::post('/blogs', [BlogController::class, 'store']);
+Route::patch('/blogs/{id}', [BlogController::class, 'update']);
+Route::delete('/blogs/{id}', [BlogController::class, 'destroy']);
