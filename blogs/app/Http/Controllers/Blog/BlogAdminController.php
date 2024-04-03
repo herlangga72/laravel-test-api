@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Blog;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\View;
 
-class BlogController extends Controller
+class BlogAdminController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +15,7 @@ class BlogController extends Controller
      */
     public function index()
     {
-        return Blog::paginate(3);
+        return View('blog.admin.listForm', ['blogs' => Blog::all()]);
     }
 
     /**
@@ -24,7 +25,7 @@ class BlogController extends Controller
      */
     public function create()
     {
-        
+        return View('blog.admin.createForm');
     }
 
     /**
@@ -44,7 +45,7 @@ class BlogController extends Controller
             'content' => 'required',
         ]);
         Blog::create($request->all());
-        return response()->json(['message' => 'Blog created successfully'], 201);
+        return View('blog.admin.listForm', ['blogs' => Blog::all(), 'message' => ['type'=>'success' ,'title'=>'Action Completed', 'content'=>'Blog created successfully']]);
     }
 
     /**
@@ -55,8 +56,8 @@ class BlogController extends Controller
      */
     public function show(int $id)
     {
-        $obj = Blog::find($id);
-        return Response()->json($obj);
+        $blog = Blog::find($id);
+        return View('blog.admin.showItems', ['blog' => $blog]);
     }
 
     /**
@@ -65,9 +66,10 @@ class BlogController extends Controller
      * @param  \App\Models\Blog  $blog
      * @return \Illuminate\Http\Response
      */
-    public function edit(Blog $blog)
+    public function edit(int $id)
     {
-        
+        $blog = Blog::find($id);
+        return View('blog.admin.editForm', ['blog' => $blog]);
     }
 
     /**
@@ -80,7 +82,7 @@ class BlogController extends Controller
     public function update(Request $request, int $id)
     {
         $blog = Blog::find($id)->update($request->all());
-        return response()->json(['message' => 'Blog updated successfully'], 200);
+        return View('blog.admin.listForm', ['blogs' => Blog::all(), 'message' => ['type'=>'success' ,'title'=>'Action Completed', 'content'=>'Blog updated successfully']]);
     }
 
     /**
@@ -92,6 +94,6 @@ class BlogController extends Controller
     public function destroy(int $id)
     {
         $blog = Blog::destroy($id);
-        return response()->json(['message' => 'Blog deleted successfully'], 200);
+        return View('blog.admin.listForm', ['blogs' => Blog::all(), 'message' => ['type'=>'danger' ,'title'=>'Action Completed', 'content'=>'Blog deleted successfully']]);
     }
 }
