@@ -1,7 +1,7 @@
 @extends('admin.layout')
 
 @section('content')
-    <div style="background-image:url('{{ $blog->cover }}'); background-repeat: no-repeat; backdrop-filter:blur('15px'); background-size:cover;" class="d-flex">
+    <div style="background-image:url('{{ $blog->cover }}'); background-repeat: no-repeat; backdrop-filter:blur('15px'); background-size:cover;" class="d-flex justify-content-center">
         <div class="m-5 d-flex flex-column p-5 h-100 glass">
             <h2 class="text-center">{{ $blog->title }}</h2> <br>
             <h6>
@@ -22,8 +22,7 @@
             written on: {{ $blog->date }} <br>
         </div>
     </div>
-    content: 
-    {!! Str::of($blog->content)->markdown() !!}
+    {!! Str::markdown($blog->content) }
     <br>
     <br>
 @endsection

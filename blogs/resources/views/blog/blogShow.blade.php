@@ -4,7 +4,7 @@
 <style>
 
 </style>
-    <div style="background-image:url('{{ $blog->cover }}'); background-repeat: no-repeat; backdrop-filter:blur('15px'); background-size:cover;" class="d-flex align-items-center ">
+    <div style="background-image:url('{{ $blog->cover }}'); background-repeat: no-repeat; backdrop-filter:blur('15px'); background-size:cover;" class="d-flex align-items-center justify-content-center">
         <div class="m-5 d-flex flex-column p-5 h-100 glass">
             <h2 class="text-center">{{ $blog->title }}</h2> <br>
             <h6>
@@ -25,8 +25,7 @@
             written on: {{ $blog->date }} <br>
         </div>
     </div>
-    content: 
-    {!! parsedown($blog->content) !!}
+    {!! Str::markdown($blog->content) !!}
     <br>
     <br>
 @endsection
