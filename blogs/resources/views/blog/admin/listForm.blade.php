@@ -46,4 +46,10 @@
         </tr>
         @endforeach
     </tbody>
+</table>
+<div class="row">
+    <div class="col-md-12">
+        {{ $blogs->links() }}
+    </div>
+</div>
 @endsection

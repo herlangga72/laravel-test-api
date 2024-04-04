@@ -1,8 +1,13 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\BlogAdminController;
-use App\Http\Controllers\BlogController;
+use Illuminate\Auth\Middleware\Authenticate;
+use App\Http\Controllers\Blog\BlogAdminController;
+use App\Http\Controllers\Blog\BlogController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\SocialiteController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,13 +23,28 @@ Route::get('/', function () {
     return redirect('/blogs/');;
 })->name('homepage');
 
+Route::controller(LoginController::class)->group(function(){
+    Route::get('login/', 'index')->name('login');
+    Route::post('login/', 'authenticate')->name('login.post');
+    Route::get('logout/', 'logout')->name('logout');
+});
+
+Route::controller(RegisterController::class)->group(function(){
+    Route::get('register', 'index')->name('register');
+    Route::post('register', 'register')->name('register.post');
+});
+
 Route::controller(BlogController::class)->group(function(){
     Route::get('blogs/', 'index')->name('blogs.list');
     Route::get('blogs/{id}', 'show')->name('blogs.show'); 
 });
 
+Route::controller(SocialiteController::class)->group(function(){
+    Route::get('/auth/google/redirect/', 'googleRedirect')->name('google.redirect');
+    Route::get('/auth/google/handle', 'googleOAuth')->name('google.handle');
+});
 
-Route::controller(BlogAdminController::class)->group(function(){
+Route::middleware('auth')->controller(BlogAdminController::class)->group(function(){
     // web
     Route::get('admin/blogs/', 'index')->name('blogsAdmin.list');
     Route::get('admin/blogs/create', 'create')->name('blogsAdmin.create');

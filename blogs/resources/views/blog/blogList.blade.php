@@ -8,8 +8,8 @@
                     <img src="{{ $blog->cover }}" class="card-img-top" alt="...">
                 </a>
                 <div class="card-body">
-                    <h5 class="card-title">{{ $blog->title }}</h5>
-                    <p class="card-text">{{ $blog->desc }}</p>
+                    <h4 class="card-title">{{ $blog->title }}</h4>
+                    <p class="card-text ">{{ $blog->desc }}</p>
                     <a href="{{ route('blogs.show',['id'=>$blog->id])}}" class="btn btn-primary">Read More</a>
                 </div>
             </div>

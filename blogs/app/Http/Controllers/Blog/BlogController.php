@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Blog;
 
+use App\Http\Controllers\Controller;
+use App\Models\Blog;
 use Illuminate\Http\Request;
-use App\Resources\Blog as ResourcesBlog;
+use Illuminate\Support\Facades\View;
 
-class BlogApiController extends Controller
+class BlogController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +16,17 @@ class BlogApiController extends Controller
      */
     public function index()
     {
-        return ResourceBlog::Blog->toArray(Blog::paginate(3));
+        return View('blog.blogList', ['blogs' => Blog::paginate(config('pagination.pageSize'))]);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        // 
     }
 
     /**
@@ -25,15 +37,7 @@ class BlogApiController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'title' => ['required'],
-            'desc' => 'required',
-            'author' => 'required',
-            'cover' => 'required',
-            'date' => 'required',
-            'content' => 'required',
-        ]);
-        Blog::create($request->all());
+        // 
     }
 
     /**
@@ -42,9 +46,21 @@ class BlogApiController extends Controller
      * @param  \App\Models\Blog  $blog
      * @return \Illuminate\Http\Response
      */
-    public function show(Blog $blog)
+    public function show(int $id)
     {
-        return Response()->json($obj);
+        $blog = Blog::find($id);
+        return View('blog.blogShow', ['blog' => $blog]);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Models\Blog  $blog
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(int $id)
+    {
+        // 
     }
 
     /**
@@ -56,8 +72,7 @@ class BlogApiController extends Controller
      */
     public function update(Request $request, int $id)
     {
-        $blog = Blog::find($id)->update($request->all());
-        return response()->json(['message' => 'Blog updated successfully'], 200);
+        // 
     }
 
     /**
@@ -68,7 +83,6 @@ class BlogApiController extends Controller
      */
     public function destroy(int $id)
     {
-        $blog = Blog::destroy($id);
-        return response()->json(['message' => 'Blog deleted successfully'], 200);
+        // 
     }
 }

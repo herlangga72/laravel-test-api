@@ -2,8 +2,7 @@
 
 @section('content')
 <h6>Create Blog Post</h6>
-<form action="{{ route('blogsAdmin.store') }}" method="POST">
-    @csrf
+{!! Form::open(["url"=>route('blogsAdmin.store') ,"method"=>"POST", 'enctype'=>'multipart/form-data']) !!}
     <div class="form-group">
         {{ Form::label('title', 'Title :') }}
         {{ Form::text('title', '', ["class"=>"form-control"]) }}
@@ -28,18 +27,22 @@
         {{ Form::label('telegram', 'Telegram :') }}
         {{ Form::text('telegram', '', ["class"=>"form-control"]) }}
     </div>
-    <div class="form-group">
+    {{-- <div class="form-group">
         {{ Form::label('cover', 'Cover :') }}
         {{ Form::text('cover', '', ["class"=>"form-control"])}}
-    </div>
+    </div> --}}
     <div class="form-group">
         {{ Form::label('date', 'Date :') }}
         {{ Form::date('date', date("Y-m-d")), ["class"=>"form-control"]}}
     </div>
     <div class="form-group">
+        {{ Form::label('cover', 'Image Cover :') }}
+        {!! Form::file('cover', ["class"=>"form-control"]) !!}
+    </div>
+    <div class="form-group">
         {{ Form::label('content', 'Content :') }}
-        {{ Form::text('content', '', ["class"=>"form-control"]) }}
+        {{ Form::textarea('content', '', ["class"=>"form-control"]) }}
     </div>
     <button type="submit" class="btn btn-primary" >Submit</button>
-</form>
+{!! Form::close() !!}
 @endsection

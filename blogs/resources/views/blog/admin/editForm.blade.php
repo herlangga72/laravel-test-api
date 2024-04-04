@@ -3,10 +3,8 @@
 @section('content')
 
 <h6>Edit Blog Post</h6>
-<form action="{{ route('blogsAdmin.update', ['id'=>$blog->id])}}" method="POST">
-    @method('PUT')
 
-    @csrf
+{!! Form::open(["url"=>route('blogsAdmin.update', ['id'=>$blog->id]) ,"method"=>"PUT", , 'enctype'=>'multipart/form-data']) !!}
     <div class="form-group">
         {{ Form::label('title', 'Title :') }}
         {{ Form::text('title', $blog->title, ["class"=>"form-control"]) }}
@@ -31,19 +29,22 @@
         {{ Form::label('telegram', 'Telegram :') }}
         {{ Form::text('telegram', $blog->telegram, ["class"=>"form-control"]) }}
     </div>
-    <div class="form-group">
+    {{-- <div class="form-group">
         {{ Form::label('cover', 'Cover :') }}
         {{ Form::text('cover', $blog->cover, ["class"=>"form-control"])}}
-    </div>
+    </div> --}}
     <div class="form-group">
         {{ Form::label('date', 'Date :') }}
         {{ Form::date('date', $blog->date), ["class"=>"form-control"]}}
     </div>
     <div class="form-group">
+        {{ Form::label('cover', 'Image Cover :') }}
+        {!! Form::file('cover',["class"=>"form-control"]) !!}
+    </div>
+    <div class="form-group">
         {{ Form::label('content', 'Content :') }}
         {{ Form::textarea('content', $blog->content, ["class"=>"form-control"]) }}
     </div>
-
     <button type="submit">Submit</button>
-</form>
+{!! Form::close() !!}
 @endsection

@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
-use App\Models\Blog;
+use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\View;
 
-class BlogController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +14,7 @@ class BlogController extends Controller
      */
     public function index()
     {
-        return View('blog.blogList', ['blogs' => Blog::all()]);
+        return View('user.listForm', ['users' => User::all()]);
     }
 
     /**
@@ -25,7 +24,7 @@ class BlogController extends Controller
      */
     public function create()
     {
-        // 
+        return View('user.createForm');
     }
 
     /**
@@ -36,52 +35,58 @@ class BlogController extends Controller
      */
     public function store(Request $request)
     {
-        // 
+        $request->validate([
+            'name' => ['required'],
+            'email' => 'required',
+            'password' => 'required',
+        ]);
+        User::create($request->all());
+        return View('user.listForm', ['users' => User::all(), 'message' => ['type'=>'success' ,'title'=>'Action Completed', 'content'=>'User created successfully']]);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Blog  $blog
+     * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function show(int $id)
+    public function show(User $user)
     {
-        $blog = Blog::find($id);
-        return View('blog.blogShow', ['blog' => $blog]);
+        $user = User::find($id);
+        return View('user.showForm', ['user' => $user]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Blog  $blog
+     * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function edit(int $id)
+    public function edit(User $user)
     {
-        // 
+        return View('user.editForm', ['user' => $user]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Blog  $blog
+     * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, int $id)
+    public function update(Request $request, User $user)
     {
-        // 
+        //
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Blog  $blog
+     * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy(int $id)
+    public function destroy(User $user)
     {
-        // 
+        //
     }
 }

@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Blog;
 
+use App\Http\Controllers\Controller;
 use App\Models\Blog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
@@ -15,7 +16,7 @@ class BlogAdminController extends Controller
      */
     public function index()
     {
-        return View('blog.admin.listForm', ['blogs' => Blog::all()]);
+        return View('blog.admin.listForm', ['blogs' => Blog::paginate(config('pagination.pageSize')), ]);
     }
 
     /**
@@ -44,8 +45,12 @@ class BlogAdminController extends Controller
             'date' => 'required',
             'content' => 'required',
         ]);
+
+        $path = $request->file('image')->store('public');
+        $request->cover = $path;
+
         Blog::create($request->all());
-        return View('blog.admin.listForm', ['blogs' => Blog::all(), 'message' => ['type'=>'success' ,'title'=>'Action Completed', 'content'=>'Blog created successfully']]);
+        return View('blog.admin.listForm', ['blogs' => Blog::paginate(config('pagination.pageSize')), 'message' => ['type'=>'success' ,'title'=>'Action Completed', 'content'=>'Blog created successfully']]);
     }
 
     /**
@@ -81,8 +86,13 @@ class BlogAdminController extends Controller
      */
     public function update(Request $request, int $id)
     {
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('public');
+            $request->cover = $path;
+        }
+        
         $blog = Blog::find($id)->update($request->all());
-        return View('blog.admin.listForm', ['blogs' => Blog::all(), 'message' => ['type'=>'success' ,'title'=>'Action Completed', 'content'=>'Blog updated successfully']]);
+        return View('blog.admin.listForm', ['blogs' => Blog::paginate(config('pagination.pageSize')), 'message' => ['type'=>'success' ,'title'=>'Action Completed', 'content'=>'Blog updated successfully']]);
     }
 
     /**
@@ -94,6 +104,6 @@ class BlogAdminController extends Controller
     public function destroy(int $id)
     {
         $blog = Blog::destroy($id);
-        return View('blog.admin.listForm', ['blogs' => Blog::all(), 'message' => ['type'=>'danger' ,'title'=>'Action Completed', 'content'=>'Blog deleted successfully']]);
+        return View('blog.admin.listForm', ['blogs' => Blog::paginate(config('pagination.pageSize')), 'message' => ['type'=>'danger' ,'title'=>'Action Completed', 'content'=>'Blog deleted successfully']]);
     }
 }

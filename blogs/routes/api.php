@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\BlogApiController;
+use App\Http\Controllers\Blog\BlogApiController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -20,3 +20,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 // Add blog to the route
 Route::apiResource('blogs', BlogApiController::class);
+
+// Add User to the route
+Route::apiResource('users', UserController::class);
+

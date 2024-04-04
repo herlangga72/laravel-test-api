@@ -19,10 +19,12 @@
                     <a href="https://t.me/{{ $blog->telegram }}"><i class="fa-brands fa-telegram fa-xl text-white"></i></a>
                 @endif
             </div>
-            written on: {{ $blog->date }} <br>
+            written on: {{ date_format($blog->date,"d-m-Y") }} <br>
         </div>
     </div>
-    {!! Str::markdown($blog->content) }
+    <div>
+        {!! Str::markdown($blog->content) !!}
+    </div>
     <br>
     <br>
 @endsection

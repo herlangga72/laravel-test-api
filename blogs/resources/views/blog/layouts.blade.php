@@ -2,8 +2,7 @@
 <html>
 <head>
     <title>Blog</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    @include('components.header')
     <style>
         .glass{
             background: rgba( 255, 255, 255, 0.25 );
@@ -23,4 +22,5 @@
     <div class="container">
         @yield('content')
     </div>
+    @include('components.footer')
 </body>
