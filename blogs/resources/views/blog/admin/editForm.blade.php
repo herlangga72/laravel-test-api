@@ -4,7 +4,7 @@
 
 <h6>Edit Blog Post</h6>
 
-{!! Form::open(["url"=>route('blogsAdmin.update', ['id'=>$blog->id]) ,"method"=>"PUT", , 'enctype'=>'multipart/form-data']) !!}
+{!! Form::open(["url"=>route('blogsAdmin.update', ['id'=>$blog->id]) ,"method"=>"PUT", 'enctype'=>'multipart/form-data']); !!}
     <div class="form-group">
         {{ Form::label('title', 'Title :') }}
         {{ Form::text('title', $blog->title, ["class"=>"form-control"]) }}

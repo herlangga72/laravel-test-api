@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Blog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Storage;
 
 class BlogAdminController extends Controller
 {
@@ -41,12 +42,11 @@ class BlogAdminController extends Controller
             'title' => ['required'],
             'desc' => 'required',
             'author' => 'required',
-            'cover' => 'required',
             'date' => 'required',
             'content' => 'required',
         ]);
 
-        $path = $request->file('image')->store('public');
+        $path = Storage::put('blogCover', $request->file('cover'));
         $request->cover = $path;
 
         Blog::create($request->all());
@@ -87,7 +87,7 @@ class BlogAdminController extends Controller
     public function update(Request $request, int $id)
     {
         if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('public');
+            $path = Storage::put('blogCover', $request->file('cover'));
             $request->cover = $path;
         }
         
