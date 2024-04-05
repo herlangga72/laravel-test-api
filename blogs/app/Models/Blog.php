@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Blog extends Model
 {
@@ -20,11 +21,21 @@ class Blog extends Model
         'content',
     ];
     protected $casts = [
-        'date' => 'datetime',
+        'date' => 'date',
     ];
     protected $hidden = [
         'created_at',
         'updated_at',
     ];
+
+    public function setCoverAttribute($file)
+    {
+        if ($this->cover) {
+            Storage::disk('public')->delete($this->cover);
+        }
+        $path = $file->store('coversBlog', 'public');
+        $this->attributes['cover'] = '/assets/'.$path;
+        $this->save();
+    }
     
 }

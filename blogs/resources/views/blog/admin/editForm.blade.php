@@ -29,10 +29,6 @@
         {{ Form::label('telegram', 'Telegram :') }}
         {{ Form::text('telegram', $blog->telegram, ["class"=>"form-control"]) }}
     </div>
-    {{-- <div class="form-group">
-        {{ Form::label('cover', 'Cover :') }}
-        {{ Form::text('cover', $blog->cover, ["class"=>"form-control"])}}
-    </div> --}}
     <div class="form-group">
         {{ Form::label('date', 'Date :') }}
         {{ Form::date('date', $blog->date), ["class"=>"form-control"]}}

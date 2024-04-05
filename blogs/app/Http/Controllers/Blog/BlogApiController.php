@@ -30,11 +30,12 @@ class BlogApiController extends Controller
             'title' => ['required'],
             'desc' => 'required',
             'author' => 'required',
-            'cover' => 'required',
             'date' => 'required',
             'content' => 'required',
         ]);
-        Blog::create($request->all());
+        $blog = new Blog($request->except(['cover']));
+        $blog->setCoverAttribute($request->file('cover'));
+        $blog->save();
         return response()->json(['message' => 'Blog created successfully'], 201);
     }
 
@@ -60,6 +61,11 @@ class BlogApiController extends Controller
     public function update(Request $request, int $id)
     {
         $blog = Blog::find($id)->update($request->all());
+        $blog->update($request->except(['cover']));
+        if ($request->hasFile('cover')) {
+            Storage::delete($blog->cover);
+            $blog->setCoverAttribute($request->file('cover'));
+        }
         return response()->json(['message' => 'Blog updated successfully'], 200);
     }
 

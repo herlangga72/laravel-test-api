@@ -2,7 +2,7 @@
 
 @section('content')
 <h6>Create Blog Post</h6>
-{!! Form::open(["url"=>route('blogsAdmin.store') ,"method"=>"POST", 'enctype'=>'multipart/form-data']) !!}
+{!! Form::open(["url"=>route('blogsAdmin.store') ,"method"=>"POST", "files"=>'true'] ) !!}
     <div class="form-group">
         {{ Form::label('title', 'Title :') }}
         {{ Form::text('title', '', ["class"=>"form-control"]) }}

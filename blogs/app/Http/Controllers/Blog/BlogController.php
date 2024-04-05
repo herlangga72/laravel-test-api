@@ -49,6 +49,7 @@ class BlogController extends Controller
     public function show(int $id)
     {
         $blog = Blog::find($id);
+        $blog->cover = 'assets/blogImage'.$blog->cover;
         return View('blog.blogShow', ['blog' => $blog]);
     }
 

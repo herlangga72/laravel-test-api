@@ -7,6 +7,7 @@ use App\Models\Blog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Redirect;
 
 class BlogAdminController extends Controller
 {
@@ -15,9 +16,9 @@ class BlogAdminController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return View('blog.admin.listForm', ['blogs' => Blog::paginate(config('pagination.pageSize')), ]);
+        return View('blog.admin.listForm', ['blogs' => Blog::paginate(config('pagination.pageSize')), 'message' => $request->message ?? null]);
     }
 
     /**
@@ -45,12 +46,10 @@ class BlogAdminController extends Controller
             'date' => 'required',
             'content' => 'required',
         ]);
-
-        $path = Storage::put('blogCover', $request->file('cover'));
-        $request->cover = $path;
-
-        Blog::create($request->all());
-        return View('blog.admin.listForm', ['blogs' => Blog::paginate(config('pagination.pageSize')), 'message' => ['type'=>'success' ,'title'=>'Action Completed', 'content'=>'Blog created successfully']]);
+        $blog = new Blog($request->except(['cover']));
+        $blog->setCoverAttribute($request->file('cover'));
+        $blog->save();
+        return Redirect::route('blogsAdmin.list', ['message' => ['type'=>'success' ,'title'=>'Action Completed', 'content'=>'Blog created successfully']]);
     }
 
     /**
@@ -86,13 +85,12 @@ class BlogAdminController extends Controller
      */
     public function update(Request $request, int $id)
     {
-        if ($request->hasFile('image')) {
-            $path = Storage::put('blogCover', $request->file('cover'));
-            $request->cover = $path;
+        $blog = Blog::find($id);
+        $blog->update($request->except(['cover']));
+        if ($request->hasFile('cover')) {
+            $blog->setCoverAttribute($request->file('cover'));
         }
-        
-        $blog = Blog::find($id)->update($request->all());
-        return View('blog.admin.listForm', ['blogs' => Blog::paginate(config('pagination.pageSize')), 'message' => ['type'=>'success' ,'title'=>'Action Completed', 'content'=>'Blog updated successfully']]);
+        return Redirect::route('blogsAdmin.list', ['message' => ['type'=>'success' ,'title'=>'Action Completed', 'content'=>'Blog updated successfully']]);
     }
 
     /**
@@ -104,6 +102,6 @@ class BlogAdminController extends Controller
     public function destroy(int $id)
     {
         $blog = Blog::destroy($id);
-        return View('blog.admin.listForm', ['blogs' => Blog::paginate(config('pagination.pageSize')), 'message' => ['type'=>'danger' ,'title'=>'Action Completed', 'content'=>'Blog deleted successfully']]);
+        return Redirect::route('blogsAdmin.list', ['message' => ['type'=>'danger' ,'title'=>'Action Completed', 'content'=>'Blog deleted successfully']]);
     }
 }
