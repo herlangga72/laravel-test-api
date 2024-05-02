@@ -9,6 +9,9 @@
                 <a class="nav-link" href="{{route('blogsAdmin.list')}}">Blog List</a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" href="{{route('categoryAdmin.list')}}">Category List</a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="{{route('logout')}}">Logout</a>
             </li>
         </ul>

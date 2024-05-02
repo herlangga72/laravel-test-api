@@ -7,6 +7,7 @@ use App\Http\Controllers\Blog\BlogController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\SocialiteController;
+use App\Http\Controllers\Category\CategoryAdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,4 +55,19 @@ Route::middleware('auth')->controller(BlogAdminController::class)->group(functio
     Route::post('admin/blogs/', 'store')->name('blogsAdmin.store');
     Route::put('admin/blogs/{id}', 'update')->name('blogsAdmin.update');
     Route::delete('admin/blogs/{id}/destroy', 'destroy')->name('blogsAdmin.destroy');
+});
+
+Route::middleware('auth')->controller(CategoryAdminController::class)->group(function(){
+    // web
+    
+    Route::get('admin/categories/', 'index')->name('categoryAdmin.list');
+    // Route::get('admin/categories/create', 'create')->name('categoryAdmin.create');
+    // Route::get('admin/categories/{id}', 'show')->name('categoryAdmin.show');
+    // Route::get('admin/categories/{id}/edit', 'edit')->name('categoryAdmin.edit');
+    
+    // back process
+    
+    // Route::post('admin/categories/', 'store')->name('categoryAdmin.store');
+    // Route::put('admin/categories/{id}', 'update')->name('categoryAdmin.update');
+    // Route::delete('admin/categories/{id}/destroy', 'destroy')->name('categoryAdmin.destroy');
 });
