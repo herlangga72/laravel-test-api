@@ -4,63 +4,51 @@ namespace App\Http\Controllers\Category;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Category as _Category;
+use App\Models\Category;
 
-class CategoryAdminController extends Controller
+class CategoryController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-
-        return view('category.admin.categoryList', _Category::all() );
+        $categories = Category::all();
+        return view('category.index', ['categories' => $categories]);
     }
 
-    // public function create()
-    // {
-    //     return view('category.admin.categoryCreate');
-    // }
+    public function create(Request $request)
+    {
+        return view('category.create');
+    }
 
-    // public function store(Request $request)
-    // {
-    //     $request->validate([
-    //         'category_name' => 'required',
-    //     ]);
-    //     Category::create($request->all());
-    //     return redirect()->route('categoryAdmin.index');
-    // }
+    public function store(Request $request)
+    {
+        $request->validate([
+            'category_name' => ['required'],
+        ]);
+        Category::create(['category_name' => $request->category_name]);
+        return redirect()->route('categories.index');
+    }
 
-    // public function show(int $id)
-    // {
-    //     return view('category.admin.categoryShow');
-    // }
+    public function edit(Request $request, $id)
+    {
+        $category = Category::find($id);
+        return view('category.edit', ['category' => $category]);
+    }
 
-    // public function edit(int $id)
-    // {
-    //     return view('category.admin.categoryEdit');
-    // }
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'category_name' => ['required'],
+        ]);
+        $category = Category::find($id);
+        $category->category_name = $request->category_name;
+        $category->save();
+        return redirect()->route('categories.index');
+    }
 
-    // public function update(Request $request, int $id)
-    // {
-    //     // 
-    // }
-
-    // public function destroy(int $id)
-    // {
-    //     // 
-    // }
-
-    // public function bulkCreate()
-    // {
-    //     return view('category.admin.categoryBulkCreate');
-    // }
-
-    // public function bulkStore(Request $request)
-    // {
-    //     $categories = $request->get("categories");
-    //     foreach ($categories as $category) {
-    //         $category->validate([
-    //             'category_name' => 'required',
-    //         ]);
-    //     }
-    //     Category::insert($request->all());
-    // }
+    public function destroy(Request $request, $id)
+    {
+        $category = Category::find($id);
+        $category->delete();
+        return redirect()->route('categories.index');
+    }
 }
